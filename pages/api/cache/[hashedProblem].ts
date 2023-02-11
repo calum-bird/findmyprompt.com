@@ -21,6 +21,7 @@ export default async function getCache(
   }
 
   let { hashedProblem } = req.query;
+  console.log(req.query);
   if (!hashedProblem) {
     let returnObj: CacheObject = {
       type: "cache-error",
