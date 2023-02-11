@@ -1,0 +1,41 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type { NextApiRequest, NextApiResponse } from "next";
+import { EmbeddingObject } from "../../lib/types";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<EmbeddingObject>
+) {
+  const { user, problem } = req.body;
+
+  // fetch openai api using helicone.ai for logs
+  const result = await fetch("https://oai.hconeai.com/v1/embeddings", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + process.env.OPENAI_API_KEY,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "text-embedding-ada-002",
+      input: problem,
+      user: user,
+    }),
+  }).then((res) => {
+    return res.json();
+  });
+
+  let resultObj: EmbeddingObject;
+  if (result) {
+    resultObj = {
+      type: "embedding-success",
+      data: { error: null, embedding: result.data[0].embedding },
+    };
+  } else {
+    resultObj = {
+      type: "embedding-failure",
+      data: { error: "Failed to generate embedding", embedding: null },
+    };
+  }
+
+  res.status(200).json(resultObj);
+}
