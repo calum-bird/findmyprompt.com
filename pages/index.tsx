@@ -41,7 +41,7 @@ const Home: NextPage = () => {
     setResult("");
     try {
       // normalize the problem string by removing whitespace and making it lowercase
-      const cachedResult = await getCache(problem, user);
+      const cachedResult = await getCache(problem);
       if (cachedResult.type === "cache-hit") {
         setEmbedding(cachedResult.data.result);
       } else if (cachedResult.type === "cache-miss") {
