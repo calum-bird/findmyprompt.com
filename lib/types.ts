@@ -145,11 +145,11 @@ export type GenerationParams = {
   stream?: boolean;
   stop?: string[];
   echo?: boolean;
-  logprobs?: number;
+  logprobs?: number | string;
   logit_bias?: number;
 };
 
-type LMResponse = {
+export type LMResponse = {
   model: string;
   prompt: string;
   choices: string[];
@@ -172,3 +172,19 @@ type LMResponseFailure = {
 };
 
 export type LMResponseObject = LMResponseSuccess | LMResponseFailure;
+
+export type LMConfig = {
+  authKey: string;
+  generationEndpoint: string;
+  generationEndpointMethod: "POST" | "GET";
+  inputMapping: (generationParams: GenerationParams) => object;
+  // kwargs for outputMapping
+  outputMapping: (
+    response: object,
+    model: string,
+    prompt: string
+  ) => LMResponseObject;
+};
+
+// TOOD: Add AI21, goose.ai, and others as providers
+export type Provider = "cohere" | "openai";

@@ -15,6 +15,8 @@ export default async function postPrompt(
     return;
   }
 
+  const { user, problem, prompt } = req.body;
+
   let promptObject: PromptObject = {
     id: "0",
     problem: "test",
