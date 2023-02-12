@@ -65,6 +65,8 @@ const Home: NextPage = () => {
 
   // TODO: Make sure that we handle when to show the form properly
 
+  // TODO: Add a gallery of some kind
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-2 transition-all duration-750 ease-out">
       <Head>
