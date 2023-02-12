@@ -16,10 +16,15 @@ export const search = async (
   }
 
   // Sort by similarity score
-  const nearestPromptEmbeddings = similarityResults.data.searchResults.sort(
+  let nearestPromptEmbeddings = similarityResults.data.searchResults.sort(
     (a, b) => {
       return a.score - b.score;
     }
+  );
+
+  // Filter out those with less than 0.9 similarity score
+  nearestPromptEmbeddings = nearestPromptEmbeddings.filter(
+    (embedding) => embedding.score > 0.9
   );
 
   // Map prompt ids

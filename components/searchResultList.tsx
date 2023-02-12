@@ -20,10 +20,12 @@ export default function SearchResultList({
     return <></>;
   }
 
+  console.log(searchResults);
+
   return (
-    <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center mt-5">
+    <div className="w-full md:w-1/2 text-left mt-5">
       {searchResults.map((searchResult) => (
-        <div>
+        <div key={searchResult.prompt.id}>
           <SearchResult prompt={searchResult.prompt} />
         </div>
       ))}

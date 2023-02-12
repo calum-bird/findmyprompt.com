@@ -20,6 +20,8 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
   const [exInput, setExInput] = useState<string>("");
   const [exOutput, setExOutput] = useState<string>("");
   const [areResultsEmpty, setAreResultsEmpty] = useState<boolean>(false);
+  const [showCreatePromptForm, setShowCreatePromptForm] =
+    useState<boolean>(false);
   const [hasFilledAllFields, setHasFilledAllFields] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
 
@@ -68,8 +70,10 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
     if (searchResult && searchResult.type === "search-result-success") {
       if (searchResult.data.searchResults.length > 0) {
         setAreResultsEmpty(false);
+        setShowCreatePromptForm(true);
       } else {
         setAreResultsEmpty(true);
+        setShowCreatePromptForm(true);
       }
     }
   }, [searchResult]);
@@ -84,11 +88,11 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
         value={problem}
         onChange={(e) => setProblem(e.target.value)}
       />
-      {areResultsEmpty && (
+      {showCreatePromptForm && (
         <CreatePromptForm
           exInput={exInput}
           exOutput={exOutput}
-          isOpen={areResultsEmpty}
+          isOpen={showCreatePromptForm}
           problem={problem}
           setExInput={setExInput}
           setExOutput={setExOutput}
@@ -107,6 +111,17 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
           ? "Create my prompt!"
           : "Find my prompt!"}
       </button>
+      {showCreatePromptForm && (
+        <button
+          className={
+            "w-full md:w-1/2 mt-2 p-3 text-xl text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition-all duration-250 ease-out opacity-100 disabled:opacity-40 disabled:pointer-events-none"
+          }
+          disabled={problem === "" || loading || !hasFilledAllFields}
+          onClick={generatePrompt}
+        >
+          {loading ? "..." : "Create my prompt!"}
+        </button>
+      )}
       {error !== "" && (
         <div className="w-full md:w-1/2 mt-2 p-3 text-xl text-red-800">
           {error}
