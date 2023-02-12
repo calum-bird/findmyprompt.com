@@ -63,6 +63,8 @@ const Home: NextPage = () => {
 
   // MAKE THIS A COMMUNITY THING WHERE EVERYONE CAN SEE ALL THE PROMPTS AND DISCOVER BASED ON EMBEDDINGS AND LIKE MAYBE EVENT PROMPT BOUNTIES???
 
+  // TODO: Make sure that we handle when to show the form properly
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-2 transition-all duration-750 ease-out">
       <Head>

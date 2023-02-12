@@ -32,8 +32,6 @@ export default async function handler(
     return res.json();
   });
 
-  console.log(result);
-
   let resultObj: EmbeddingObject;
   if (result) {
     resultObj = {
