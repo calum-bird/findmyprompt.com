@@ -1,7 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// File: pages/api/cache/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import Redis from "ioredis";
-import { BooleanObject } from "../../lib/types";
+import { BooleanObject } from "../../../lib/types";
 
 const EMBEDDING_CACHE_URL = process.env.EMBEDDING_CACHE_URL;
 const redis = new Redis(EMBEDDING_CACHE_URL ? EMBEDDING_CACHE_URL : "");

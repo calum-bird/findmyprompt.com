@@ -1,4 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// File: pages/api/cache/[hashedProblem].ts
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import Redis from "ioredis";
 import { CacheObject } from "../../../lib/types";
@@ -21,7 +22,6 @@ export default async function getCache(
   }
 
   let { hashedProblem } = req.query;
-  console.log(req.query);
   if (!hashedProblem) {
     let returnObj: CacheObject = {
       type: "cache-error",

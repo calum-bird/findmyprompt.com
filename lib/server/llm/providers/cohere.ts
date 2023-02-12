@@ -1,9 +1,10 @@
+// File: lib/server/llm/providers/cohere.ts
 import {
   GenerationParams,
   LMConfig,
   LMResponse,
   LMResponseObject,
-} from "../../types";
+} from "../../../types";
 
 export const mapInput = (generationParams: GenerationParams) => {
   return {

@@ -1,9 +1,25 @@
-import { GenerationParams, LMConfig, LMResponseObject } from "../types";
+// File: lib/server/llm/generate.ts
+import {
+  GenerationParams,
+  LMConfig,
+  LMProvider,
+  LMResponseObject,
+} from "../../types";
+import { cohere } from "./providers/cohere";
+import { openai } from "./providers/openai";
 
 export default function generate(
+  generationParams: GenerationParams,
+  provider: string
+): Promise<LMResponseObject> {
+  let providerConfig = provider === "cohere" ? cohere() : openai();
+  return _generate(providerConfig, generationParams);
+}
+
+const _generate = (
   providerConfig: LMConfig,
   generationParams: GenerationParams
-): Promise<LMResponseObject> {
+): Promise<LMResponseObject> => {
   const {
     authKey,
     generationEndpoint,
@@ -41,4 +57,4 @@ export default function generate(
         },
       };
     });
-}
+};

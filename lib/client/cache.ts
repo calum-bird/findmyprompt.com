@@ -1,5 +1,6 @@
+// File: lib/cache.ts
 import { sha256 } from "js-sha256";
-import { BooleanObject, CacheObject } from "./types";
+import { BooleanObject, CacheObject } from "../types";
 
 export const getCache = async (problem: string): Promise<CacheObject> => {
   let normalizedProblem = problem.toLowerCase().trim().replace(/\s+/g, " ");

@@ -1,6 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// File: pages/api/prompt/[id].ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { GetPromptObject, PromptObject } from "../../../lib/types";
+
+import { getPrompt as getSinglePrompt } from "../../../lib/server/db/planetscale";
 
 export default async function getPrompt(
   req: NextApiRequest,
@@ -15,7 +17,19 @@ export default async function getPrompt(
     return;
   }
 
-  const { user, hashedProblem } = req.body;
+  const { promptId } = req.query;
+
+  // Check for invalid prompt ID
+  if (!promptId || typeof promptId !== "string") {
+    let createPromptObject: GetPromptObject = {
+      type: "get-prompt-failure",
+      data: { error: "Invalid prompt ID.", promptObject: null },
+    };
+    res.status(400).json(createPromptObject);
+    return;
+  }
+
+  let row = await getSinglePrompt(promptId);
 
   let promptObject: PromptObject = {
     id: "0",

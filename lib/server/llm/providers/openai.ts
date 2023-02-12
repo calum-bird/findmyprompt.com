@@ -1,9 +1,10 @@
+// File: lib/server/llm/providers/openai.ts
 import {
   GenerationParams,
   LMConfig,
   LMResponse,
   LMResponseObject,
-} from "../../types";
+} from "../../../types";
 
 const mapInput = (generationParams: GenerationParams) => {
   return generationParams;

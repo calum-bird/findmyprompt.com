@@ -1,3 +1,5 @@
+// File: lib/types.ts
+
 export type CacheHit = {
   type: "cache-hit";
   data: {
@@ -68,6 +70,32 @@ type EmbeddingFailure = {
 
 export type EmbeddingObject = EmbeddingSuccess | EmbeddingFailure;
 
+export type PineconeEmbedding = {
+  id: string;
+  score: number;
+  metadata: object;
+};
+
+type EmbeddingSearchSuccess = {
+  type: "embedding-search-success";
+  data: {
+    error: null;
+    searchResults: PineconeEmbedding[];
+  };
+};
+
+type EmbeddingSearchFailure = {
+  type: "embedding-search-failure";
+  data: {
+    error: string;
+    searchResults: null;
+  };
+};
+
+export type EmbeddingSearchResult =
+  | EmbeddingSearchSuccess
+  | EmbeddingSearchFailure;
+
 export type PromptObject = {
   id: string;
   problem: string;
@@ -92,17 +120,11 @@ type GetPromptFailure = {
 
 export type GetPromptObject = GetPromptSuccess | GetPromptFailure;
 
-type PromptIndex = {
-  type: "prompt-index";
-  data: {
-    error: null;
-    similarityScore: number;
-    keywordScore: number;
-    id: string;
-  };
+export type PromptIndexObject = {
+  similarityScore: number;
+  keywordScore: number;
+  prompt: PromptObject;
 };
-
-export type PromptIndexObject = PromptIndex;
 
 type CreatePromptSuccess = {
   type: "create-prompt-success";
@@ -123,13 +145,12 @@ type CreatePromptFailure = {
 export type CreatePromptObject = CreatePromptSuccess | CreatePromptFailure;
 
 export type CreatePromptProps = {
+  exInput: string;
+  exOutput: string;
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  generatePrompt: (
-    problem: string,
-    exInput: string,
-    exOutput: string
-  ) => Promise<CreatePromptObject>;
+  problem: string;
+  setExOutput: (exOutput: string) => void;
+  setExInput: (exInput: string) => void;
 };
 
 export type GenerationParams = {
@@ -187,4 +208,22 @@ export type LMConfig = {
 };
 
 // TOOD: Add AI21, goose.ai, and others as providers
-export type Provider = "cohere" | "openai";
+export type LMProvider = "cohere" | "openai";
+
+type SearchResultSuccess = {
+  type: "search-result-success";
+  data: {
+    error: null;
+    searchResults: PromptIndexObject[];
+  };
+};
+
+type SearchResultFailure = {
+  type: "search-result-failure";
+  data: {
+    error: string;
+    searchResults: null;
+  };
+};
+
+export type SearchResult = SearchResultSuccess | SearchResultFailure;

@@ -1,11 +1,19 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// File: pages/api/search/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
-import { EmbeddingObject } from "../../lib/types";
+import { EmbeddingObject } from "../../../lib/types";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<EmbeddingObject>
 ) {
+  if (req.method !== "POST") {
+    res.status(405).json({
+      type: "embedding-failure",
+      data: { error: "Invalid method.", embedding: null },
+    });
+    return;
+  }
+
   const { user, problem } = req.body;
 
   // fetch openai api using helicone.ai for logs
